@@ -30,6 +30,7 @@ function handleMap(event)
     // can be used to sends the names of the column, you can infer the mapping from it if it contains the needed name
     // so i could map it and make its order
     const columnNames = Object.keys(json[0]);
+
     jsonData = JSON.stringify({data:json,mapping:mapping});
   };
 
