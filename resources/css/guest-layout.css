@@ -1,0 +1,44 @@
+body
+{
+    height: 100vh;
+}
+main.guest
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 0.2rem;
+    overflow: auto;
+    width: 100%;
+    min-height: 100%;
+}
+
+.box
+{
+    border: var(--primary) solid 1px;
+    padding: 16px;
+    max-width: 400px;
+}
+
+form,input[type='submit']
+{
+    margin: 0;
+}
+.errors
+{
+    width: 400px;
+    padding:1rem;
+    color: darkred;
+    background-color: lightcoral;
+    margin: 0;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+.errors *
+{
+    margin:0;
+}
