@@ -50,7 +50,7 @@ const uploadData = async () => {
     })
 
     //refresh so the user can see the new products
-    // setTimeout(function() {
-    //     location.reload();
-    //   }, 3000);
+    setTimeout(function() {
+        location.reload();
+      }, 3000);
 }
