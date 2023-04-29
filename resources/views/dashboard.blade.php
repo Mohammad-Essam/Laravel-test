@@ -5,10 +5,9 @@
     <div>
         <span>import Excel File</span>
         <input type="file" id="fileInput">
-        {{-- <input id="map" type="number" placeholder="012 for normal mapping, 210 for reverse order and so on"> --}}
+        <input value="012" id="map" type="number" placeholder="012 for normal mapping, 210 for reverse order and so on">
         <button onclick="uploadData()">Upload Excel values</button>
     </div>
-
     <div>
         <h2>All Products</h2>
 

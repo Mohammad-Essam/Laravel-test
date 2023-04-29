@@ -14,9 +14,10 @@ class ProductController extends Controller
     }
 
     public function store(Request $request){
-        // dd($request->all());
 
         $keys = array_keys($request->data[0]);
+        $mapping = $request->mapping;
+
         foreach($request->data as $row)
         {
             $product = new Product();
@@ -26,7 +27,7 @@ class ProductController extends Controller
             }
             else
             {
-                $product->name = $row[$keys[0]];
+                $product->name = $row[$keys[$mapping[0]]];
             }
 
             if(array_key_exists('type',$row)){
@@ -34,7 +35,7 @@ class ProductController extends Controller
             }
             else
             {
-                $product->type = $row[$keys[1]];
+                $product->type = $row[$keys[$mapping[1]]];
             }
 
             if(array_key_exists('qty',$row)){
@@ -42,7 +43,7 @@ class ProductController extends Controller
             }
             else
             {
-                $product->qty = $row[$keys[2]];
+                $product->qty = $row[$keys[$mapping[2]]];
             }
             $product->save();
         }
