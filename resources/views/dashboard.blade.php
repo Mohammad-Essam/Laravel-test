@@ -5,8 +5,44 @@
     <div>
         <span>import Excel File</span>
         <input type="file" id="fileInput">
-        <input value="012" id="map" type="number" placeholder="012 for normal mapping, 210 for reverse order and so on">
-        <button onclick="uploadData()">Upload Excel values</button>
+        <div style="display:none" id="mappingTable">
+            <h3>Map your data</h3>
+            <table>
+                <tr>
+                    <td>Product Name</td>
+                    <td>
+                        <select name="productName" id="productName">
+                            <option selected value="0">first column</option>
+                            <option value="1">second column</option>
+                            <option value="2">third column</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Product Type</td>
+                    <td>
+                        <select name="productType" id="productType">
+                            <option value="0">first column</option>
+                            <option selected value="1">second column</option>
+                            <option value="2">third column</option>
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Product Quantity</td>
+                    <td>
+                        <select name="productQuantity" id="productQuantity">
+                            <option value="0">first column</option>
+                            <option value="1">second column</option>
+                            <option selected value="2">third column</option>
+                        </select>
+                    </td>
+                </tr>
+
+            </table>
+        <button style="" id="uploadButton">Upload Excel values</button>
+        </div>
     </div>
     <div>
         <h2>All Products</h2>

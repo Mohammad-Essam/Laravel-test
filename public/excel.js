@@ -1,15 +1,24 @@
 const fileInput = document.getElementById('fileInput');
 
+const uploadButton = document.getElementById('uploadButton');
+uploadButton.addEventListener('click', uploadData);
 let mapping = [0,1,2];
-let jsonData = JSON.stringify({data:null,mapping:mapping})
+let excelData = null
 fileInput.addEventListener('change', handleFile);
 
+const mappingTable = document.getElementById('mappingTable');
+const productNameInput = document.getElementById('productName');
+const productTypeInput = document.getElementById('productType');
+const productQtyInput = document.getElementById('productQuantity');
 
-const mapInput = document.getElementById('map');
-mapInput.addEventListener('input', handleMap);
-function handleMap(event)
+productNameInput.addEventListener('change', setMapping);
+productTypeInput.addEventListener('change', setMapping);
+productQtyInput.addEventListener('change', setMapping);
+function setMapping(event)
 {
-    mapping = event.target.value.split('');
+    mapping[0] = productNameInput.value;
+    mapping[1] = productTypeInput.value;
+    mapping[2] = productQtyInput.value;
 }
 
 // Define the handleFile function
@@ -25,20 +34,44 @@ function handleMap(event)
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
     // Convert the worksheet to a JSON object
     const json = XLSX.utils.sheet_to_json(worksheet);
+    excelData = json;
 
-
-    // can be used to sends the names of the column, you can infer the mapping from it if it contains the needed name
-    // so i could map it and make its order
     const columnNames = Object.keys(json[0]);
+    //assert that the file contains the needed columns numbers
+    if(columnNames.length < 3 || columnNames.length > 3)
+    {
+        alert('Please upload a file with only 3 columns');
+        return;
+    }
 
-    jsonData = JSON.stringify({data:json,mapping:mapping});
+    // Detect if the file contains the needed columns and set the mapping to them
+    if(columnNames.indexOf('name') != -1)
+        productNameInput.value = columnNames.indexOf('name');
+    if(columnNames.indexOf('type') != -1)
+        productTypeInput.value = columnNames.indexOf('type');
+    if(columnNames.indexOf('qty') != -1)
+        productQtyInput.value = columnNames.indexOf('qty');
+
+
+    //populate the select options with the column names
+    let first = document.querySelectorAll('#productName>option')
+    let second = document.querySelectorAll('#productType>option')
+    let third = document.querySelectorAll('#productQuantity>option')
+    for (let i = 0; i < columnNames.length; i++) {
+        first[i].innerHTML = columnNames[i];
+        second[i].innerHTML = columnNames[i];
+        third[i].innerHTML = columnNames[i];
+    }
+
+    //displaying the mapping and the upload button
+    mappingTable.style.display = 'block';
   };
 
   // Read the Excel file as binary data
   reader.readAsBinaryString(file);
 }
 
-const uploadData = async () => {
+function uploadData(event){
 
     fetch(`/products/store/`, {
         method: 'POST',
@@ -46,11 +79,9 @@ const uploadData = async () => {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
             'Content-Type': 'application/json',
         },
-        body: jsonData,
+        body: JSON.stringify({data:excelData,mapping:mapping}),
     })
-
-    //refresh so the user can see the new products
-    setTimeout(function() {
+    .then(response => {
         location.reload();
-      }, 3000);
+    })
 }
